@@ -1,138 +1,138 @@
-# 电化学数据处理工具 v1.0.0
+# Electrochemistry Data Processing Tool v1.0.0
 
-## 更新日期: 2025 年 5 月 21 日
+## Update Date: May 21, 2025
 
-电化学数据处理工具是一个用于自动化处理多种电化学测试数据的 Python 脚本工具。它旨在简化从原始数据文件到结构化 Excel 报告的转换过程，并提取关键的电化学参数。
+The Electrochemistry Data Processing Tool is a Python script designed to automate the processing of various electrochemical test data. It simplifies the transformation from raw data files to structured Excel reports and extracts key electrochemical parameters.
 
-支持的数据类型包括：
+Supported data types include:
 
-- **循环伏安法 (CV)**: 自动识别 CV 曲线，计算双电层电容 (Cdl) 等参数。
-- **线性扫描伏安法 (LSV)**: 处理 LSV 数据，提取相关参数。
-- **电化学阻抗谱 (EIS)**: 解析 EIS 数据，计算溶液电阻 (Rs)，并可生成 ZView 兼容格式的纯数据文件。
+- **Cyclic Voltammetry (CV)**: Automatically identifies CV curves and calculates parameters such as double-layer capacitance (Cdl).
+- **Linear Sweep Voltammetry (LSV)**: Processes LSV data and extracts relevant parameters.
+- **Electrochemical Impedance Spectroscopy (EIS)**: Analyzes EIS data, calculates solution resistance (Rs), and generates ZView-compatible plain data files.
 
-## 主要功能
+## Key Features
 
-- **自动文件识别**: 根据文件内容特征（如特定关键词）自动识别 CV, LSV, EIS 数据文件。
-- **数据提取与处理**: 从文本文件中精确提取相关数据列。
-  - CV: 电流、电压数据，Cdl 计算中的电流密度差 (Δj)。
-  - LSV: 电流、电压数据。
-  - EIS: 频率 (Freq), 实部阻抗 (Z'), 虚部阻抗 (Z'')。计算并输出 -Z''。
-- **参数计算**:
-  - CV: 双电层电容 (Cdl)。
-  - EIS: 溶液电阻 (Rs)，通过查找-Z''与 Z'轴的交点或最接近点计算。
-- **Tafel 图数据生成**: 结合 LSV 数据和 EIS 推导的 Rs 值，计算 `log(j)` 和 `Overpotential`，并将结果输出到专门的 "Tafel Data" 工作表。
-- **格式化 Excel 报告**:
-  - 将所有处理后的数据和计算结果统一输出到单个 Excel 工作簿中，包含 `CV Data`, `LSV Data`, `EIS Data`, `Tafel Data` 等详细数据工作表，以及一个汇总的 `Analysis Report` 工作表。
-  - `Analysis Report` 工作表汇总了各项分析的关键参数，并作为打开 Excel 文件时的默认显示工作表。
-  - 标准化的表头格式：3 行表头信息 + 1 行与表头格式相同的空行，数据从第 5 行开始 (适用于数据表)。
-  - EIS 数据表中，Rs 交点处的 Z'和-Z''数据会以黄色背景和加粗字体高亮显示。
-  - 支持在同一工作表中并列展示多个同类型文件的处理结果 (适用于 `CV Data`, `LSV Data`, `EIS Data`, `Tafel Data`)。
-- **ZView 兼容文件生成**: 对于 EIS 数据，可选择生成纯数据格式的 `.txt` 文件 (命名为 `原文件名-ZView用.txt`)，方便导入 ZView 等专业拟合软件。这些文件将保存在用户选择的原始数据文件夹中。
-- **日志记录**: 详细记录程序运行过程、警告和错误信息到 `logs` 文件夹下的日志文件，便于追踪和调试。
-- **可执行文件打包**: 提供将 Python 应用程序打包为单个可执行文件 (`ElectrochemistryTool.exe`) 的支持，方便在没有 Python 环境的机器上运行。
-- **用户友好的交互**:
-  - 通过图形界面选择数据文件夹。
-  - 清晰的终端进度提示。
+- **Automatic File Recognition**: Automatically identifies CV, LSV, and EIS data files based on file content characteristics (e.g., specific keywords).
+- **Data Extraction and Processing**: Precisely extracts relevant data columns from text files.
+  - CV: Current and voltage data, current density difference (Δj) for Cdl calculation.
+  - LSV: Current and voltage data.
+  - EIS: Frequency (Freq), real impedance (Z'), imaginary impedance (Z''). Outputs -Z''.
+- **Parameter Calculation**:
+  - CV: Double-layer capacitance (Cdl).
+  - EIS: Solution resistance (Rs), calculated by finding the intersection or closest point of -Z'' and the Z' axis.
+- **Tafel Plot Data Generation**: Combines LSV data and Rs values derived from EIS to calculate `log(j)` and `Overpotential`, outputting the results to a dedicated "Tafel Data" worksheet.
+- **Formatted Excel Reports**:
+  - Consolidates all processed data and calculated results into a single Excel workbook, including detailed data worksheets (`CV Data`, `LSV Data`, `EIS Data`, `Tafel Data`) and a summary `Analysis Report` worksheet.
+  - The `Analysis Report` worksheet summarizes key parameters from the analysis and is set as the default active worksheet when the Excel file is opened.
+  - Standardized header format: 3 header rows + 1 blank row with the same format as the header, with data starting from row 5 (for data sheets).
+  - In the EIS data sheet, Z' and -Z'' data at the Rs intersection are highlighted with a yellow background and bold font.
+  - Supports side-by-side display of multiple datasets of the same type in the same worksheet (applicable to `CV Data`, `LSV Data`, `EIS Data`, `Tafel Data`).
+- **ZView-Compatible File Generation**: For EIS data, generates plain data files in `.txt` format (named `OriginalFileName-ZView.txt`) for easy import into ZView and other professional fitting software. These files are saved in the user's selected raw data folder.
+- **Logging**: Logs detailed program execution, warnings, and errors to log files in the `logs` folder for tracking and debugging.
+- **Executable Packaging**: Supports packaging the Python application into a single executable file (`ElectrochemistryTool.exe`) for use on machines without a Python environment.
+- **User-Friendly Interaction**:
+  - Select data folders via a graphical interface.
+  - Clear terminal progress prompts.
 
-## 安装与运行
+## Installation and Usage
 
-### 环境要求
+### System Requirements
 
 - Python 3.x
-- `pip` (Python 包管理工具)
+- `pip` (Python package manager)
 
-### 安装依赖
+### Install Dependencies
 
-确保您的 Python 环境中已安装所有必要的库。在项目根目录 (`cursor` 目录) 下打开终端，运行：
+Ensure all necessary libraries are installed in your Python environment. Open a terminal in the project root directory (`cursor` directory) and run:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-`requirements.txt` 文件应包含以下内容 (至少):
+The `requirements.txt` file should include at least the following:
 
 ```text
 openpyxl
 numpy
-tqdm # 可选，用于显示进度条
+tqdm # Optional, for progress bars
 ```
 
-### 运行程序
+### Run the Program
 
-在项目根目录 (`cursor` 目录) 下打开终端，运行：
+Open a terminal in the project root directory (`cursor` directory) and run:
 
 ```bash
 python run_electrochemistry.py
 ```
 
-或者，如果提供了可执行版本 (`ElectrochemistryTool.exe`)，可以直接运行该程序。
+Alternatively, if an executable version (`ElectrochemistryTool.exe`) is provided, you can run the program directly.
 
-## 使用方法
+## Usage Instructions
 
-1. **启动程序**: 执行 `python run_electrochemistry.py` 或双击 `ElectrochemistryTool.exe`。
-2. **选择文件夹**: 程序会弹出文件夹选择对话框。请选择包含原始电化学数据文件 (`.txt` 格式) 的文件夹。
-3. **自动处理**: 程序将自动扫描选定文件夹中的文件：
-    - 识别 CV, LSV, EIS 文件。
-    - 对识别出的文件进行数据提取和计算。
-    - 生成 ZView 兼容文件 (对于 EIS 数据)，保存在您选择的文件夹内。
-    - 生成一个包含所有处理结果的 Excel 文件，保存在所选文件夹下的 `processed_data` 子目录中，文件名格式为 `文件夹名_processed_data_时间戳.xlsx`。
-4. **查看结果**:
-    - 打开生成的 Excel 文件查看详细数据和计算参数。默认打开 "Analysis Report" 工作表。
-    - 检查原始文件夹中生成的 `-ZView用.txt` 文件。
-    - 如有任何问题，请查看终端输出或 `logs` 文件夹中的日志文件。
+1. **Start the Program**: Run `python run_electrochemistry.py` or double-click `ElectrochemistryTool.exe`.
+2. **Select Folder**: The program will prompt you to select a folder. Choose the folder containing raw electrochemical data files (`.txt` format).
+3. **Automatic Processing**: The program will automatically scan the selected folder for files:
+    - Identify CV, LSV, and EIS files.
+    - Extract and calculate data from identified files.
+    - Generate ZView-compatible files (for EIS data) in the selected folder.
+    - Generate an Excel file containing all processed results in the `processed_data` subdirectory of the selected folder. The file name format is `FolderName_processed_data_Timestamp.xlsx`.
+4. **View Results**:
+    - Open the generated Excel file to view detailed data and calculated parameters. The default worksheet is "Analysis Report".
+    - Check the `-ZView.txt` files generated in the raw data folder.
+    - If any issues arise, check the terminal output or log files in the `logs` folder.
 
-## 文件结构说明
+## File Structure
 
 ```text
 cursor/
-├── electrochemistry/         # 核心处理模块包
-│   ├── common/               # 通用工具模块 (Excel, 文件操作)
+├── electrochemistry/         # Core processing module package
+│   ├── common/               # Common utility modules (Excel, file operations)
 │   │   ├── __init__.py
 │   │   ├── excel_utils.py
 │   │   └── file_utils.py
 │   ├── __init__.py
-│   ├── cv.py                 # CV数据处理模块
-│   ├── eis.py                # EIS数据处理模块
-│   ├── lsv.py                # LSV数据处理模块
-│   ├── tafel.py              # Tafel分析模块
-│   └── main.py               # 主控制逻辑
-├── logs/                     # 日志文件存放目录
-├── README.md                 # 本说明文件
-├── requirements.txt          # Python依赖包列表
-├── run_electrochemistry.py   # 程序主入口脚本
-└── ElectrochemistryTool.spec # PyInstaller 配置文件
+│   ├── cv.py                 # CV data processing module
+│   ├── eis.py                # EIS data processing module
+│   ├── lsv.py                # LSV data processing module
+│   ├── tafel.py              # Tafel analysis module
+│   └── main.py               # Main control logic
+├── logs/                     # Log file storage directory
+├── README.md                 # This documentation file
+├── requirements.txt          # Python dependency list
+├── run_electrochemistry.py   # Main entry script
+└── ElectrochemistryTool.spec # PyInstaller configuration file
 
-# 用户选择的文件夹 (示例)
+# Example of user-selected folder
 selected_data_folder/
 ├── cv_data_1.txt
 ├── lsv_data_1.txt
 ├── eis_data_1.txt
-├── eis_data_1-ZView用.txt    # <--- ZView文件会生成在这里
-└── processed_data/           # <--- Excel报告会生成在这里
+├── eis_data_1-ZView.txt      # <--- ZView files will be generated here
+└── processed_data/           # <--- Excel reports will be generated here
     └── selected_data_folder_processed_data_YYYYMMDD_HHMMSS.xlsx
 ```
 
-## 注意事项
+## Notes
 
-- **输入文件格式**: 当前主要支持 `.txt` 格式的原始数据文件。请确保您的数据文件结构与各模块（CV, LSV, EIS）的解析逻辑兼容。
-  - CV/LSV: 通常需要包含明确的电压和电流数据列。
-  - EIS: 需要包含 "A.C. Impedance" 关键词以供识别，并且数据区应有类似 "Freq/Hz, Z'/ohm, Z"/ohm,..." 的表头。
-- **依赖安装**: 务必在运行前通过 `pip install -r requirements.txt` 安装所有依赖 (如果不是运行 `.exe` 版本)。
-- **Excel 文件写入权限**: 确保程序对目标输出目录（即所选文件夹下的 `processed_data` 子目录）有写入权限。如果 Excel 文件已打开，可能导致保存失败。
-- **防病毒软件误报**: 如果使用 `.exe` 版本，某些防病毒软件可能会对其进行标记 (例如，如果使用了 UPX 打包)。如果遇到这种情况，尝试使用未压缩的 `.exe` 版本或从源代码运行。
-- **错误排查**: 如遇问题，首先检查终端的错误提示。更详细的信息可以查看 `logs` 文件夹下对应日期的日志文件。
+- **Input File Format**: Currently supports raw data files in `.txt` format. Ensure your data file structure is compatible with the parsing logic of each module (CV, LSV, EIS).
+  - CV/LSV: Typically requires clear voltage and current data columns.
+  - EIS: Requires the keyword "A.C. Impedance" for identification, and the data section should have headers like "Freq/Hz, Z'/ohm, Z"/ohm,...".
+- **Dependency Installation**: Ensure all dependencies are installed via `pip install -r requirements.txt` before running (if not using the `.exe` version).
+- **Excel File Write Permissions**: Ensure the program has write permissions for the target output directory (i.e., the `processed_data` subdirectory under the selected folder). If the Excel file is open, saving may fail.
+- **Antivirus False Positives**: If using the `.exe` version, some antivirus software may flag it (e.g., if UPX compression is used). If this occurs, try using an uncompressed `.exe` version or run from source.
+- **Error Troubleshooting**: If issues arise, first check the terminal error messages. For more detailed information, check the log files in the `logs` folder.
 
-## 未来可能的改进
+## Future Improvements
 
-- 支持更多数据格式和仪器型号。
-- 增加数据可视化功能（如图表直接生成在 Excel 或独立图片文件）。
-- 提供更多可配置的分析参数。
-- 构建更完善的图形用户界面 (GUI)。
+- Support for more data formats and instrument models.
+- Add data visualization features (e.g., charts generated directly in Excel or as standalone image files).
+- Provide more configurable analysis parameters.
+- Develop a more comprehensive graphical user interface (GUI).
 
-## 贡献
+## Contributions
 
-欢迎提出改进建议或参与代码贡献。
+Suggestions for improvements or code contributions are welcome.
 
 ---
 
-_该工具旨在提高电化学数据处理的效率，如有特定需求或发现 bug，请及时反馈。_
+_This tool aims to improve the efficiency of electrochemical data processing. If you have specific needs or find bugs, please provide feedback._
